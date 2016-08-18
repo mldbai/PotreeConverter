@@ -138,11 +138,13 @@ AABB PotreeConverter::calculateAABB(){
 }
 
 void PotreeConverter::generatePage(string name){
+    const char * resourcesEnv = getenv("POTREE_RESOURCES");
+        string resourcesPath = resourcesEnv ? resourcesEnv : "./resources";
+        string templateSourcePath = resourcesPath + "/page_template/examples/viewer_template.html";
 	string pagedir = this->workDir;
-	string templateSourcePath = "./resources/page_template/examples/viewer_template.html";
 	string templateTargetPath = pagedir + "/examples/" + name + ".html";
 
-	Potree::copyDir(fs::path("./resources/page_template"), fs::path(pagedir));
+	Potree::copyDir(fs::path(resourcesPath + "/page_template"), fs::path(pagedir));
 	fs::remove(pagedir + "/examples/viewer_template.html");
 
 	{ // change viewer template
